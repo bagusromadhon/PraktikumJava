@@ -1,74 +1,137 @@
-import java.util.Scanner;
 import java.util.HashMap;
+import java.util.Map;
+import java.util.Objects;
+import java.util.Scanner;
 
 public class Main {
-    private static final HashMap<String, String> ADMIN_DATA = new HashMap<>();
+
+
+    static final Map<String, String[]> userStudent = new HashMap<>();
+    static final HashMap<String, String> ADMIN_DATA = new HashMap<>();
+    static final HashMap<String, String> STUDENT_DATA = new HashMap<>();
+    static  Book[] bookList = new Book[50];
+    static {
+        ADMIN_DATA.put("admin", "admin");
+        STUDENT_DATA.put("123", "123");
+
+
+        bookList[0] = new Book(1, "title 1", "author 1", "History", 5, 10);
+
+
+    }
+
+
 
     public static void main(String[] args) {
-        ADMIN_DATA.put("admin1", "admin123");
-        ADMIN_DATA.put("admin2", "password123");
+        Menu();
+    }
 
+    public static void Menu() {
         Scanner scanner = new Scanner(System.in);
-
-        System.out.println("Selamat datang di Library Login System");
-
-        boolean loggedIn = false;
-
-        while (!loggedIn) {
-            System.out.println("Silakan pilih jenis user:");
-            System.out.println("1. Login as student");
-            System.out.println("2. Login as admin");
-            System.out.println("3. Exit");
-            System.out.print("Pilihan: ");
+        boolean exit = false;
+        while (!exit) {
+            System.out.println("Library System\n1. Login as Student\n2. Login as Admin\n3. Exit\nChoose option: ");
             int choice = scanner.nextInt();
-            scanner.nextLine();
-
             switch (choice) {
                 case 1:
-                    loggedIn = mahasiswaLogin(scanner);
+                    loginAsStudent(scanner);
                     break;
                 case 2:
-                    loggedIn = adminLogin(scanner);
+                    loginAsAdmin(scanner);
                     break;
                 case 3:
-                    System.out.println("Terima kasih telah menggunakan Library Login System. Sampai jumpa!");
-                    System.exit(0);
+                    exit = true;
+                    System.out.println("Thank you. Exiting Program.");
                     break;
                 default:
-                    System.out.println("Pilihan tidak valid. Silakan coba lagi.");
-                    break;
+                    System.out.println("Invalid choice.");
             }
         }
-
-        System.out.println("Login berhasil. Selamat datang!");
-        // Program berlanjut di sini setelah login berhasil
     }
 
-    private static boolean adminLogin(Scanner scanner) {
-        System.out.println("Masukkan username admin:");
-        String username = scanner.nextLine();
-        System.out.println("Masukkan password admin:");
-        String password = scanner.nextLine();
+    public static void loginAsStudent(Scanner scanner) {
+        System.out.print("Enter your NIM: ");
+        String nim = scanner.next();
+        System.out.print("Enter your password: ");
+        String password = scanner.next();
+
+        if (STUDENT_DATA.containsKey(nim) && STUDENT_DATA.get(nim).equals(password)) {
+            System.out.println("Login as student successful!");
+            // Implement student menu here
+            System.out.println("Student Menu\n1. Buku terpinjam\n2. Pinjam Buku\n3. Logout\nChoose Option (1-3): ");
+            int choice = scanner.nextInt();
+            switch (choice) {
+                case 1:
+                    System.out.println("Buku terpinjam");
+                    break;
+                case 2:
+//                    displayBooks(bookList);
+                    break;
+                case 3:
+                    System.out.println("Logout");
+                    break;
+                default:
+                    System.out.println("Invalid choice.");
+            }
+
+        } else {
+            System.out.println("Invalid NIM or password. Please try again.");
+        }
+    }
+
+    public static void loginAsAdmin(Scanner scanner) {
+        System.out.print("Enter your username: ");
+        String username = scanner.next();
+        System.out.print("Enter your password: ");
+        String password = scanner.next();
 
         if (ADMIN_DATA.containsKey(username) && ADMIN_DATA.get(username).equals(password)) {
-            System.out.println("Login admin berhasil!");
-            return true;
+            System.out.println("Login as admin successful!");
+            adminMenu(scanner);
         } else {
-            System.out.println("Username atau password admin salah. Silakan coba lagi.");
-            return false;
+            System.out.println("Invalid username or password. Please try again.");
         }
     }
 
-    private static boolean mahasiswaLogin(Scanner scanner) {
-        System.out.println("Masukkan NIM (Nomor Induk Mahasiswa):");
-        String nim = scanner.nextLine();
-
-        if (nim.length() <= 15) {
-            System.out.println("Login mahasiswa berhasil!");
-            return true;
-        } else {
-            System.out.println("Panjang NIM harus sama dengan 15. Silakan coba lagi.");
-            return false;
+    public static void adminMenu(Scanner scanner) {
+        boolean logout = false;
+        while (!logout) {
+            System.out.println("Admin Menu\n1. Add Student\n2. Display Registered Students\n4. Logout\nChoose option (1-4): ");
+            int choice = scanner.nextInt();
+            switch (choice) {
+                case 1:
+                    Admin.addStudent(scanner);
+                    break;
+                case 2:
+                    displayStudents();
+                    break;
+                case 3:
+                    logout = true;
+                    System.out.println("Logging out from admin account.");
+                    break;
+                default:
+                    System.out.println("Invalid choice.");
+            }
         }
     }
+
+
+
+    public static void displayStudents() {
+        System.out.println("List of Registered Students:");
+        for (Map.Entry<String, String[]> entry : userStudent.entrySet()) {
+            String nim = entry.getKey();
+            String[] studentInfo = entry.getValue();
+            System.out.println("Name: " + studentInfo[0]);
+            System.out.println("Faculty: " + studentInfo[1]);
+            System.out.println("NIM: " + nim);
+            System.out.println("Program: " + studentInfo[2]);
+            System.out.println();
+        }
+    }
+
+
 }
+
+
+
