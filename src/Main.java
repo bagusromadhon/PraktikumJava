@@ -15,7 +15,7 @@ public class Main {
         STUDENT_DATA.put("123", "123");
 
 
-        bookList[0] = new Book(1, "title 1", "author 1", "History", 5, 10);
+        bookList[0] = new Book("1", "title 1", "author 1", "History", 5, 10);
 
 
     }
@@ -58,17 +58,31 @@ public class Main {
         if (STUDENT_DATA.containsKey(nim) && STUDENT_DATA.get(nim).equals(password)) {
             System.out.println("Login as student successful!");
             // Implement student menu here
-            System.out.println("Student Menu\n1. Buku terpinjam\n2. Pinjam Buku\n3. Logout\nChoose Option (1-3): ");
+            System.out.println("Student Menu\n1. Buku terpinjam\n2. Pinjam Buku\n3. Kembalikan buku \n4. Pinjam Buku atau logout\nChoose Option (1-4): ");
             int choice = scanner.nextInt();
             switch (choice) {
                 case 1:
-                    System.out.println("Buku terpinjam");
+                    Student.showBorrowedBooks();
                     break;
                 case 2:
-//                    displayBooks(bookList);
+                    Student.borrowBook(bookList, scanner);
                     break;
                 case 3:
-                    System.out.println("Logout");
+                    Student.returnBook(bookList, scanner);
+                    break;
+                case 4:
+                    System.out.println("1. Pinjam Buku\n2. Logout");
+                    int subChoice = scanner.nextInt();
+                    switch (subChoice) {
+                        case 1:
+                            Student.borrowBook(bookList, scanner);
+                            break;
+                        case 2:
+                            System.out.println("Logout");
+                            break;
+                        default:
+                            System.out.println("Invalid choice.");
+                    }
                     break;
                 default:
                     System.out.println("Invalid choice.");
@@ -96,7 +110,7 @@ public class Main {
     public static void adminMenu(Scanner scanner) {
         boolean logout = false;
         while (!logout) {
-            System.out.println("Admin Menu\n1. Add Student\n2. Display Registered Students\n4. Logout\nChoose option (1-4): ");
+            System.out.println("Admin Menu\n1. Add Student\n2. Display Registered Students\n3. Add book \n4. Display Available Books\n5. Logout\nChoose option (1-4): ");
             int choice = scanner.nextInt();
             switch (choice) {
                 case 1:
@@ -106,6 +120,12 @@ public class Main {
                     displayStudents();
                     break;
                 case 3:
+                    Admin.inputBook();
+                    break;
+                case 4:
+                    User.displayBooks(bookList);
+                    break;
+                case 5:
                     logout = true;
                     System.out.println("Logging out from admin account.");
                     break;

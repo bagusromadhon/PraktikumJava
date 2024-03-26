@@ -1,8 +1,9 @@
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Scanner;
+import java.util.UUID;
 
-public class Admin {
+public class Admin extends User {
     private static final HashMap<String, String> ADMIN_DATA = new HashMap<>();
 
     static {
@@ -47,6 +48,57 @@ public class Admin {
 
         Main.userStudent.put(nim, new String[]{name, faculty, program});
         System.out.println("Student successfully registered.");
+    }
+
+    public static  String generateId() {
+        return UUID.randomUUID().toString();
+    }
+
+    public static void inputBook() {
+        Scanner scanner = new Scanner(System.in);
+        System.out.println("Select book category:");
+        System.out.println("1. Story Book");
+        System.out.println("2. History Book");
+        System.out.println("3. Text Book");
+        System.out.print("Choose category (1-3): ");
+        int categoryChoice = scanner.nextInt();
+
+        System.out.print("Enter book title: ");
+        String title = scanner.nextLine(); // Membersihkan buffer
+        title = scanner.nextLine(); // Mengambil input judul
+
+        System.out.print("Enter author: ");
+        String author = scanner.nextLine();
+
+        System.out.print("Enter the stock: ");
+        int stock = scanner.nextInt();
+
+        // Menghasilkan ID buku secara otomatis
+        String bookId = generateId();
+
+        // Menambahkan buku ke dalam bookList
+        if (categoryChoice >= 1 && categoryChoice <= 3) {
+            String category = "";
+            if (categoryChoice == 1) {
+                category = "Story";
+            } else if (categoryChoice == 2) {
+                category = "History";
+            } else if (categoryChoice == 3) {
+                category = "Text";
+            }
+            System.out.println("Category: " + category);
+            Book newBook = new Book(bookId, title, author, category, stock, 15);
+            for (int i = 0; i < Main.bookList.length; i++) {
+                if (Main.bookList[i] == null) {
+                    Main.bookList[i] = newBook;
+                    System.out.println("Book successfully added to the library.");
+                    return;
+                }
+            }
+            System.out.println("Book list is full.");
+        } else {
+            System.out.println("Invalid category choice.");
+        }
     }
 
     public void menuAdmin(Scanner scanner) {

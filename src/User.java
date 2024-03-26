@@ -2,10 +2,11 @@ public class User {
     static  Book[] bookList = new Book[50];
 
     static {
-        bookList[0] = new Book(1, "title 1", "author 1", "History", 5, 10);
+        bookList[0] = new Book("1", "title 1", "author 1", "History", 5, 10);
     }
 
     public static void displayBooks(Book[] bookList) {
+
         System.out.println("List Buku");
         System.out.println("NO\tid buku\t\tnamabuku\t\tauthor\t\tcategory\tstock\t\tduration\t");
         int nomer=0;

@@ -1,7 +1,7 @@
 
 // Superclass Book
 public class Book {
-    private int bookId;
+    private String bookId;
     private String title;
     private String author;
     private String category;
@@ -9,16 +9,17 @@ public class Book {
     private int duration;
 
 
-    public Book(int bookId, String title, String author, String category,int stock,int duration) {
+    public Book(String bookId, String title, String author, String category,int stock,int duration) {
         this.bookId = bookId;
         this.title = title;
         this.author = author;
         this.stock = stock;
         this.duration = duration;
+        this.category = category;
     }
 
 
-    public void setBookId(int bookId) {
+    public void setBookId(String bookId) {
         this.bookId = bookId;
     }
 
@@ -43,7 +44,7 @@ public class Book {
     }
 
     // Getter methods
-    public int getBookId() {
+    public String getBookId() {
         return bookId;
     }
 
