@@ -5,7 +5,7 @@ import java.util.Scanner;
 
 public class Main {
 
-
+    static boolean loggedIn = false;
     static final Map<String, String[]> userStudent = new HashMap<>();
     static final HashMap<String, String> ADMIN_DATA = new HashMap<>();
     static final HashMap<String, String> STUDENT_DATA = new HashMap<>();
@@ -23,7 +23,10 @@ public class Main {
 
 
     public static void main(String[] args) {
-        Menu();
+        if (!loggedIn){
+            Menu();
+        }
+
     }
 
     public static void Menu() {
@@ -50,12 +53,18 @@ public class Main {
     }
 
     public static void loginAsStudent(Scanner scanner) {
+        if (loggedIn) {
+            System.out.println("You are already logged in.");
+            return;
+        }
+        System.out.println(loggedIn);
         System.out.print("Enter your NIM: ");
         String nim = scanner.next();
         System.out.print("Enter your password: ");
         String password = scanner.next();
 
         if (STUDENT_DATA.containsKey(nim) && STUDENT_DATA.get(nim).equals(password)) {
+            loggedIn = true;
             System.out.println("Login as student successful!");
             // Implement student menu here
             System.out.println("Student Menu\n1. Buku terpinjam\n2. Pinjam Buku\n3. Kembalikan buku \n4. Pinjam Buku atau logout\nChoose Option (1-4): ");
