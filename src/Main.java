@@ -1,12 +1,13 @@
+import books.Book;
+
 import java.util.HashMap;
 import java.util.Map;
-import java.util.Objects;
 import java.util.Scanner;
 
 public class Main {
 
     static boolean loggedIn = false;
-    static final Map<String, String[]> userStudent = new HashMap<>();
+
     static final HashMap<String, String> ADMIN_DATA = new HashMap<>();
     static final HashMap<String, String> STUDENT_DATA = new HashMap<>();
     static  Book[] bookList = new Book[50];
@@ -68,7 +69,7 @@ public class Main {
             loggedIn = true;
         } else if (isStudent && STUDENT_DATA.containsKey(username) && STUDENT_DATA.get(username).equals(password)) {
             System.out.println("Login as student successful!");
-            Student.menu(scanner);
+            studentMenu(scanner);
             loggedIn = true;
         } else {
             System.out.println("Invalid username or password. Please try again.");
@@ -155,7 +156,7 @@ public class Main {
                     Admin.inputBook();
                     break;
                 case 4:
-                    User.displayBooks(bookList);
+                    Student.choiceBook(bookList);
                     break;
                 case 5:
                     logout = true;
@@ -168,10 +169,43 @@ public class Main {
     }
 
 
+    public static void studentMenu(Scanner scanner){
+        System.out.println("Student Menu\n1. Buku terpinjam\n2. Pinjam Buku\n3. Kembalikan buku \n4. Pinjam Buku atau logout\nChoose Option (1-4): ");
+            int choice = scanner.nextInt();
+            switch (choice) {
+                case 1:
+                    Student.showBorrowedBooks();
+                    break;
+                case 2:
+                    Student.borrowBook(bookList, scanner);
+                    break;
+                case 3:
+                    Student.returnBook(bookList, scanner);
+                    break;
+                case 4:
+                    System.out.println("1. Pinjam Buku\n2. Logout");
+                    int subChoice = scanner.nextInt();
+                    switch (subChoice) {
+                        case 1:
+                            Student.borrowBook(bookList, scanner);
+                            break;
+                        case 2:
+                            System.out.println("Logout");
+                            break;
+                        default:
+                            System.out.println("Invalid choice.");
+                    }
+                    break;
+                default:
+                    System.out.println("Invalid choice.");
+            }
+
+        }
+
 
     public static void displayStudents() {
         System.out.println("List of Registered Students:");
-        for (Map.Entry<String, String[]> entry : userStudent.entrySet()) {
+        for (Map.Entry<String, String[]> entry : Admin.userStudent.entrySet()) {
             String nim = entry.getKey();
             String[] studentInfo = entry.getValue();
             System.out.println("Name: " + studentInfo[0]);

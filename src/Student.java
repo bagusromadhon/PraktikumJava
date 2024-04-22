@@ -1,9 +1,49 @@
+import books.Book;
+import util.iMenu;
+
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 import java.util.Scanner;
 
-public class Student {
+public class Student extends User implements iMenu {
+    @Override
+    public void menu() {
+        Scanner scanner = new Scanner(System.in);
+        boolean logout = false;
+        while (!logout) {
+            System.out.println("Student Menu\n1. Buku terpinjam\n2. Pinjam Buku\n3. Kembalikan buku \n4. Pinjam Buku atau logout\nChoose Option (1-4): ");
+            int choice = scanner.nextInt();
+            switch (choice) {
+                case 1:
+                    showBorrowedBooks();
+                    break;
+                case 2:
+                    borrowBook(User.bookList, scanner);
+                    break;
+                case 3:
+                    returnBook(User.bookList, scanner);
+                    break;
+                case 4:
+                    System.out.println("1. Pinjam Buku\n2. Logout");
+                    int subChoice = scanner.nextInt();
+                    switch (subChoice) {
+                        case 1:
+                            borrowBook(User.bookList, scanner);
+                            break;
+                        case 2:
+                            logout = true;
+                            System.out.println("Logging out from student account.");
+                            break;
+                        default:
+                            System.out.println("Invalid choice.");
+                    }
+                    break;
+                default:
+                    System.out.println("Invalid choice.");
+            }
+        }
+    }
     private static final int MAX_BORROW_DAYS = 14;
     private static List<Book> borrowedBooks = new ArrayList<>();
 
@@ -90,35 +130,51 @@ public class Student {
     }
 
 
-    public static void menu(Scanner scanner){
-        System.out.println("Student Menu\n1. Buku terpinjam\n2. Pinjam Buku\n3. Kembalikan buku \n4. Pinjam Buku atau logout\nChoose Option (1-4): ");
-            int choice = scanner.nextInt();
-            switch (choice) {
-                case 1:
-                    Student.showBorrowedBooks();
-                    break;
-                case 2:
-                    Student.borrowBook(User.bookList, scanner);
-                    break;
-                case 3:
-                    Student.returnBook(User.bookList, scanner);
-                    break;
-                case 4:
-                    System.out.println("1. Pinjam Buku\n2. Logout");
-                    int subChoice = scanner.nextInt();
-                    switch (subChoice) {
-                        case 1:
-                            Student.borrowBook(User.bookList, scanner);
-                            break;
-                        case 2:
-                            System.out.println("Logout");
-                            break;
-                        default:
-                            System.out.println("Invalid choice.");
-                    }
-                    break;
-                default:
-                    System.out.println("Invalid choice.");
+    public static void choiceBook(Book[] bookList) {
+
+        System.out.println("List Buku");
+        System.out.println("NO\tid buku\t\tnamabuku\t\tauthor\t\tcategory\tstock\t\tduration\t");
+        int nomer=0;
+        for (Book book : bookList) {
+            if (book != null) {
+                nomer++;
+                System.out.println(nomer + "\t" + book.getBookId() + "\t\t" + book.getTitle() + "\t\t" +
+                        book.getAuthor() + "\t\t" + book.getCategory() + "\t\t" + book.getStock() + "\t\t" + book.getDuration());
             }
+        }
+
     }
+
+
+//    public static void menu(Scanner scanner){
+//        System.out.println("Student Menu\n1. Buku terpinjam\n2. Pinjam Buku\n3. Kembalikan buku \n4. Pinjam Buku atau logout\nChoose Option (1-4): ");
+//            int choice = scanner.nextInt();
+//            switch (choice) {
+//                case 1:
+//                    Student.showBorrowedBooks();
+//                    break;
+//                case 2:
+//                    Student.borrowBook(User.bookList, scanner);
+//                    break;
+//                case 3:
+//                    Student.returnBook(User.bookList, scanner);
+//                    break;
+//                case 4:
+//                    System.out.println("1. Pinjam Buku\n2. Logout");
+//                    int subChoice = scanner.nextInt();
+//                    switch (subChoice) {
+//                        case 1:
+//                            Student.borrowBook(User.bookList, scanner);
+//                            break;
+//                        case 2:
+//                            System.out.println("Logout");
+//                            break;
+//                        default:
+//                            System.out.println("Invalid choice.");
+//                    }
+//                    break;
+//                default:
+//                    System.out.println("Invalid choice.");
+//            }
+//    }
 }

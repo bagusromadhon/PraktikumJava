@@ -1,5 +1,6 @@
+package books;
 
-// Superclass Book
+// Superclass books.Book
 public class Book {
     private String bookId;
     private String title;
