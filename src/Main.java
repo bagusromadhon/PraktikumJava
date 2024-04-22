@@ -37,10 +37,10 @@ public class Main {
             int choice = scanner.nextInt();
             switch (choice) {
                 case 1:
-                    loginAsStudent(scanner);
+                    InputNim(scanner, "student");
                     break;
                 case 2:
-                    loginAsAdmin(scanner);
+                    InputNim(scanner, "admin");
                     break;
                 case 3:
                     exit = true;
@@ -52,55 +52,78 @@ public class Main {
         }
     }
 
-    public static void loginAsStudent(Scanner scanner) {
-        if (loggedIn) {
-            System.out.println("You are already logged in.");
-            return;
-        }
-        System.out.println(loggedIn);
-        System.out.print("Enter your NIM: ");
-        String nim = scanner.next();
+    public static void InputNim(Scanner scanner, String role) {
+
+        System.out.print("Enter your username: ");
+        String username = scanner.next();
         System.out.print("Enter your password: ");
         String password = scanner.next();
 
-        if (STUDENT_DATA.containsKey(nim) && STUDENT_DATA.get(nim).equals(password)) {
-            loggedIn = true;
-            System.out.println("Login as student successful!");
-            // Implement student menu here
-            System.out.println("Student Menu\n1. Buku terpinjam\n2. Pinjam Buku\n3. Kembalikan buku \n4. Pinjam Buku atau logout\nChoose Option (1-4): ");
-            int choice = scanner.nextInt();
-            switch (choice) {
-                case 1:
-                    Student.showBorrowedBooks();
-                    break;
-                case 2:
-                    Student.borrowBook(bookList, scanner);
-                    break;
-                case 3:
-                    Student.returnBook(bookList, scanner);
-                    break;
-                case 4:
-                    System.out.println("1. Pinjam Buku\n2. Logout");
-                    int subChoice = scanner.nextInt();
-                    switch (subChoice) {
-                        case 1:
-                            Student.borrowBook(bookList, scanner);
-                            break;
-                        case 2:
-                            System.out.println("Logout");
-                            break;
-                        default:
-                            System.out.println("Invalid choice.");
-                    }
-                    break;
-                default:
-                    System.out.println("Invalid choice.");
-            }
+        boolean isAdmin = role.equals("admin");
+        boolean isStudent = role.equals("student");
 
+        if (isAdmin && ADMIN_DATA.containsKey(username) && ADMIN_DATA.get(username).equals(password)) {
+            System.out.println("Login as admin successful!");
+            adminMenu(scanner);
+            loggedIn = true;
+        } else if (isStudent && STUDENT_DATA.containsKey(username) && STUDENT_DATA.get(username).equals(password)) {
+            System.out.println("Login as student successful!");
+            Student.menu(scanner);
+            loggedIn = true;
         } else {
-            System.out.println("Invalid NIM or password. Please try again.");
+            System.out.println("Invalid username or password. Please try again.");
         }
     }
+
+//    public static void loginAsStudent(Scanner scanner) {
+//        if (loggedIn) {
+//            System.out.println("You are already logged in.");
+//            return;
+//        }
+//        System.out.println(loggedIn);
+//        System.out.print("Enter your NIM: ");
+//        String nim = scanner.next();
+//        System.out.print("Enter your password: ");
+//        String password = scanner.next();
+//
+//        if (STUDENT_DATA.containsKey(nim) && STUDENT_DATA.get(nim).equals(password)) {
+//            loggedIn = true;
+//            System.out.println("Login as student successful!");
+//            // Implement student menu here
+//            System.out.println("Student Menu\n1. Buku terpinjam\n2. Pinjam Buku\n3. Kembalikan buku \n4. Pinjam Buku atau logout\nChoose Option (1-4): ");
+//            int choice = scanner.nextInt();
+//            switch (choice) {
+//                case 1:
+//                    Student.showBorrowedBooks();
+//                    break;
+//                case 2:
+//                    Student.borrowBook(bookList, scanner);
+//                    break;
+//                case 3:
+//                    Student.returnBook(bookList, scanner);
+//                    break;
+//                case 4:
+//                    System.out.println("1. Pinjam Buku\n2. Logout");
+//                    int subChoice = scanner.nextInt();
+//                    switch (subChoice) {
+//                        case 1:
+//                            Student.borrowBook(bookList, scanner);
+//                            break;
+//                        case 2:
+//                            System.out.println("Logout");
+//                            break;
+//                        default:
+//                            System.out.println("Invalid choice.");
+//                    }
+//                    break;
+//                default:
+//                    System.out.println("Invalid choice.");
+//            }
+//
+//        } else {
+//            System.out.println("Invalid NIM or password. Please try again.");
+//        }
+//    }
 
     public static void loginAsAdmin(Scanner scanner) {
         System.out.print("Enter your username: ");

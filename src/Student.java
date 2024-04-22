@@ -88,4 +88,37 @@ public class Student {
         }
         return null;
     }
+
+
+    public static void menu(Scanner scanner){
+        System.out.println("Student Menu\n1. Buku terpinjam\n2. Pinjam Buku\n3. Kembalikan buku \n4. Pinjam Buku atau logout\nChoose Option (1-4): ");
+            int choice = scanner.nextInt();
+            switch (choice) {
+                case 1:
+                    Student.showBorrowedBooks();
+                    break;
+                case 2:
+                    Student.borrowBook(User.bookList, scanner);
+                    break;
+                case 3:
+                    Student.returnBook(User.bookList, scanner);
+                    break;
+                case 4:
+                    System.out.println("1. Pinjam Buku\n2. Logout");
+                    int subChoice = scanner.nextInt();
+                    switch (subChoice) {
+                        case 1:
+                            Student.borrowBook(User.bookList, scanner);
+                            break;
+                        case 2:
+                            System.out.println("Logout");
+                            break;
+                        default:
+                            System.out.println("Invalid choice.");
+                    }
+                    break;
+                default:
+                    System.out.println("Invalid choice.");
+            }
+    }
 }
